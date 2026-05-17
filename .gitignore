@@ -17,9 +17,6 @@ obj/
 # Compily
 compily.txt
 
-# main 
-FNAZ.exe
-
 # Keep the executable as requested (though usually releases are uploaded separately)
 # !FarmaCraft.exe
 
