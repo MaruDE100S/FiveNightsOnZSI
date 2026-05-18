@@ -18,6 +18,7 @@ const std::string texturePath = "assets/textures/";
 struct gameAssets {
     Texture2D noiseTexture;
     Music mainMenuMusic;
+    Font mainFont;
 };
 
 struct GameContext {
@@ -31,6 +32,8 @@ void loadAssets(gameAssets& assets) {
     UnloadImage(noiseImage);
     // music
     assets.mainMenuMusic = LoadMusicStream((musicPath + "MainMenu_FNAZ.mp3").c_str());
+    // font
+    assets.mainFont = LoadFont("assets/fonts/mainFont.ttf");
 }
 
 void unloadAssets(gameAssets& assets) {
@@ -83,11 +86,11 @@ void drawGame(const GameContext& context, const gameAssets& assets) {
             const char* subtitle = "Press Enter to start new game.";
             const char* credit = "Developed by MaruDE\nSoundTrack and SFX by Mati FL Studio\n3D Modeling by Kreatynka\nVoice Acting by JohnyPendrive";
             const char* version = "v0.0.0";
-            DrawText(title, GetScreenWidth() / 2 - MeasureText(title, 50) / 2, GetScreenHeight() / 2 - 50, 50, WHITE);
-            DrawText(subtitle, GetScreenWidth() / 2 - MeasureText(subtitle, 20) / 2, GetScreenHeight() / 2 + 50, 20, WHITE);
-            DrawText(fullscreen, GetScreenWidth() - MeasureText(fullscreen, 20) - 10, 10, 20, WHITE);
-            DrawText(credit, 10, GetScreenHeight() - 100, 20, WHITE);
-            DrawText(version, 10, 10, 20, WHITE);
+            DrawTextEx(assets.mainFont, title, {(float)(GetScreenWidth() / 2 - MeasureText(title, 50) / 2), (float)(GetScreenHeight() / 2 - 50)}, 50, 2, WHITE);
+            DrawTextEx(assets.mainFont, subtitle, {(float)(GetScreenWidth() / 2 - MeasureText(subtitle, 20) / 2), (float)(GetScreenHeight() / 2 + 50)}, 20, 2, WHITE);
+            DrawTextEx(assets.mainFont, fullscreen, {(float)(GetScreenWidth() - MeasureText(fullscreen, 20) - 10), 10}, 20, 2, WHITE);
+            DrawTextEx(assets.mainFont, credit, {10, (float)(GetScreenHeight() - 100)}, 20, 2, WHITE);
+            DrawTextEx(assets.mainFont, version, {10, 10}, 20, 2, WHITE);
             drawNoise(assets);
         break;
     }
@@ -103,7 +106,7 @@ int main() {
     GameContext context;
     
     std::cout << "#LoveAngelika" << std::endl;
-    
+
     PlayMusicStream(assets.mainMenuMusic);
     while (!WindowShouldClose()) {
         updateGame(context, assets);
